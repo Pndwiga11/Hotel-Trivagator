@@ -1,5 +1,6 @@
 # Testing script to check if the API key works
 
+from graph_builder import create_graph, visualize_graph
 import requests
 import json
 
@@ -46,11 +47,20 @@ def get_nearby_places(location, radius, place_type):
 if __name__ == "__main__":
     # Location: New York City (latitude, longitude)
     location = "40.7128,-74.0060"
-    radius = 1000  # 1 km
+    radius = 1000  # in meters
     place_type = "restaurant"  # Change this to test other types (e.g., "restaurant")
 
     places = get_nearby_places(location, radius, place_type)
     if places:
+        # Create and visualize graph
+        G = create_graph(places)
+        visualize_graph(G)
+    
+    
+    # This section is to print the test output into the termnial
+    """
+    if places:
         print("Nearby Places:")
         for place in places:
             print(f"Name: {place['name']}, Address: {place['address']}, Rating: {place['rating']}")
+    """
