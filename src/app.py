@@ -54,7 +54,7 @@ def plan():
     """
 
     # Render results in a new template
-    return render_template("results.html", dfs=dfs_result, dijkstra=dijkstra_result)
+    return render_template("results.html", dfs=dfs_result, dijkstra=dijkstra_result, G=graph)
 
 if __name__ == "__main__":
     app.run(debug=True)

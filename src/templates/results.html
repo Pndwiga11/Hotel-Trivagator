@@ -18,10 +18,26 @@
     <h1>Your Trip Itinerary</h1>
 
     <h2>DFS Itinerary</h2>
-    <p>{{ dfs }}</p>
+    <ol>
+        {% for node in dfs %}
+            <li>
+                <strong>{{ G.nodes[node].get('name', 'Unknown') }}</strong><br>
+                Address: {{ G.nodes[node].get('address', 'N/A') }}<br>
+                Rating: {{ G.nodes[node].get('rating', 'N/A') }}
+            </li>
+        {% endfor %}
+    </ol>
 
     <h2>Dijkstra's Itinerary</h2>
-    <p>{{ dijkstra }}</p>
+    <ol>
+        {% for node in dijkstra %}
+            <li>
+                <strong>{{ G.nodes[node].get('name', 'Unknown') }}</strong><br>
+                Address: {{ G.nodes[node].get('address', 'N/A') }}<br>
+                Rating: {{ G.nodes[node].get('rating', 'N/A') }}
+            </li>
+        {% endfor %}
+    </ol>
 
     <a href="/">Plan Another Trip</a>
 </body>
