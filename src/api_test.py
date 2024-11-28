@@ -48,6 +48,36 @@ def get_nearby_places(location, radius, place_type):
         print(f"Error: {response.status_code}")
         return None
 
+def get_lat_lon(address):
+    """
+    Convert an address into latitude and longitude using the Geocoding API.
+    
+    Parameters:
+        address (str): The address to geocode.
+
+    Returns:
+        tuple: (latitude, longitude) as floats.
+    """
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": API_KEY,
+    }
+
+    response = requests.get(base_url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            location = data["results"][0]["geometry"]["location"]
+            return location["lat"], location["lng"]
+        else:
+            print("No results found for the given address.")
+            return None, None
+    else:
+        print(f"Error: {response.status_code}")
+        return None, None
+
 # Example Usage
 if __name__ == "__main__":
     # Location: New York City (latitude, longitude)
