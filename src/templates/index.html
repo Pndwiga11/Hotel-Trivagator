@@ -1,0 +1,39 @@
+<!--Note: It's been a really long time since I've done anything substantial in HTML so there are probably some things here that are wrong or inefficient-->
+
+<!--Note: Add color and/or .css file-->
+<!--Note: Add a "How it Works:" description-->
+<!--Note: Adjust "Generate" button-->
+<!--Note: Add more notes as they come up ig-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel? Trivagator</title>
+</head>
+<body>
+    <h1>Hotel? Trivagator</h1>
+    <form action="/plan" method="POST">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required><br><br>
+
+        <label for="budget">Budget:</label>
+        <input type="number" id="budget" name="budget" required><br><br>
+
+        <label for="duration">Duration (days):</label>
+        <input type="number" id="duration" name="duration" required><br><br>
+
+        <label for="interests">Interests:</label><br>
+        <input type="checkbox" id="monuments" name="interests" value="monuments">
+        <label for="monuments">Monuments</label><br>
+        <input type="checkbox" id="museums" name="interests" value="museums">
+        <label for="museums">Museums</label><br>
+        <input type="checkbox" id="shopping" name="interests" value="shopping">
+        <label for="shopping">Shopping</label><br><br>
+
+        <button type="submit">Generate Itinerary</button>
+    </form>
+</body>
+</html>
