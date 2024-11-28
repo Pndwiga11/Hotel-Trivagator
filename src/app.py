@@ -28,8 +28,10 @@ def plan():
     radius = 5000  # 5 km search radius
     place_type = interests[0] if interests else "tourist_attraction" # To allow for the input bias
 
-    # Fetch places using API
-    places = get_nearby_places(location, radius, place_type)
+    # Fetch places for each interest using API
+    places = []
+    for interest in interests:
+        places += get_nearby_places(location, radius, interest)
     
 
     # Create graph and run algorithms
