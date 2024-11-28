@@ -23,6 +23,10 @@ def plan():
     budget = request.form.get("budget")
     duration = request.form.get("duration")
     interests = request.form.getlist("interests")
+
+    is_valid_budget, min_budget = check_budget(budget, duration)
+    if not is_valid_budget:
+        return f"Error: Budget is too low. Minimum budget is ${min_budget}.", 400
     
     # Geocode the destination
     lat, lon = get_lat_lon(destination)
@@ -78,6 +82,12 @@ def plan():
 
     # Render results in a new template
     return render_template("results.html", dfs=dfs_result, dijkstra=dijkstra_result, G=graph)
+
+def check_budget(budget, duration): #tells user if budget is too low based on destination and duration
+    min_budget = 50 * int(duration) #at least 50 dollars a day (can change later)
+    if int (budget) < min_budget:
+        return False, min_budget
+    return True, min_budget
 
 if __name__ == "__main__":
     app.run(debug=True)
