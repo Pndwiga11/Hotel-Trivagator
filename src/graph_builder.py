@@ -1,7 +1,9 @@
 from dfs_algorithm import dfs_path
+from utils import get_distances
 
 import networkx as nx
 import matplotlib.pyplot as plt
+import itertools
 
 # Note: Fix the Pylance issues with these imports
 
@@ -21,11 +23,24 @@ def create_graph(places):
     for idx, place in enumerate(places):
         G.add_node(idx, name=place["name"], address=place["address"], rating=place["rating"])
 
+    # Calculate distances from the origin to each place
+    destinations = [f"{place['lat']},{place['lon']}" for place in places]
+
+    # Add edges with distances as weights
+    for i, j in itertools.combinations(range(len(places)), 2):
+        # Get distances between place i and place j
+        distances = get_distances(destinations[i], [destinations[j]])
+        if distances and distances[0] != float('inf'):
+            G.add_edge(i, j, weight=distances[0])  # Add edge with distance as weight
+
+    # Old implementation that creates an unweighted graph (if everything has the same weight it is technically unweighted)
+    """
     # Add edges (for simplicity, connect every node to every other node with dummy weights)
     for i in range(len(places)):
         for j in range(i + 1, len(places)):
             G.add_edge(i, j, weight=1)  # Replace '1' with actual distance if available
-
+    """
+    
     return G
 
 def visualize_graph(G):

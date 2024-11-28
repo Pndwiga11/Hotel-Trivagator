@@ -51,6 +51,10 @@ def plan():
     max_places = int(budget) // (50 * int(duration))
     places = places[:max_places]
 
+    # Add latitude/longitude to each place (mock data if not available)
+    for place in places:
+        place["lat"], place["lon"] = get_lat_lon(place["address"])
+    
     # Create graph and run algorithms
     graph = create_graph(places)
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
