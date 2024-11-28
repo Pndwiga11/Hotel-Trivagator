@@ -6,6 +6,7 @@ from api_test import get_nearby_places
 
 # Note: Fix the Pylance issues with this import
 # Note: Do some more research with Flask routing for new ideas
+# Note: Add something saying "Budget is too low" if budget is too low
 
 app = Flask(__name__)
 
@@ -24,7 +25,7 @@ def plan():
     interests = request.form.getlist("interests")
     
     # Mock location for further testing
-    location = "40.7128,-74.0060"  # Latitude and Longitude of NYC
+    location = "29.647324, -82.346011"  # Latitude and Longitude of UF Reitz Union
     radius = 5000  # 5 km search radius
     place_type = interests[0] if interests else "tourist_attraction" # To allow for the input bias
 
@@ -33,6 +34,9 @@ def plan():
     for interest in interests:
         places += get_nearby_places(location, radius, interest)
     
+    # Limit the output within budget (example: 50$ per location per day)
+    max_places = int(budget) // (50 * int(duration))
+    places = places[:max_places]
 
     # Create graph and run algorithms
     graph = create_graph(places)
