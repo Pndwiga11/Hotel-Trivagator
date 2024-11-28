@@ -41,7 +41,7 @@ def get_nearby_places(location, radius, place_type):
             places.append({
                 "name": str(result.get("name")),
                 "address": str(result.get("vicinity")),
-                "rating": result.get("rating"),
+                "rating": result.get("rating", 0),
             })
         return places
     else:

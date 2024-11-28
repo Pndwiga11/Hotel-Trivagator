@@ -34,7 +34,7 @@ def plan():
 
     # Create graph and run algorithms
     graph = create_graph(places)
-    dfs_result = dfs_path(graph, start_node=0, preference=False)
+    dfs_result = dfs_path(graph, start_node=0, preference="rating")
     dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
 
 
