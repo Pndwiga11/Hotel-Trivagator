@@ -1,5 +1,9 @@
+from dfs_algorithm import dfs_path
+
 import networkx as nx
 import matplotlib.pyplot as plt
+
+# Note: Fix the Pylance issues with these imports
 
 def create_graph(places):
     """
@@ -53,4 +57,11 @@ if __name__ == "__main__":
 
     # Create and visualize the graph
     G = create_graph(places)
+    
+    dfs_result = dfs_path(G, start_node=2, preference="address")
+    print("DFS Result:", dfs_result)
+    
     visualize_graph(G)
+    
+    
+

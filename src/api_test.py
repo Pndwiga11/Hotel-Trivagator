@@ -1,8 +1,11 @@
 # Testing script to check if the API key works
 
 from graph_builder import create_graph, visualize_graph
+
 import requests
 import json
+
+# Note: Fix the Pylance issues with this import
 
 API_KEY = "AIzaSyAx4-LAfScomtXACQYr6a62FTKtYgBWs60"
 # Make sure to keep this API keep secret/secure ^^
@@ -26,6 +29,8 @@ def get_nearby_places(location, radius, place_type):
         "type": place_type,
         "key": API_KEY,
     }
+    
+    # Note: Do some more research on the other params of the API
 
     response = requests.get(base_url, params=params)
 
@@ -48,7 +53,7 @@ if __name__ == "__main__":
     # Location: New York City (latitude, longitude)
     location = "40.7128,-74.0060"
     radius = 1000  # in meters
-    place_type = "restaurant"  # Change this to test other types (e.g., "restaurant")
+    place_type = "restaurant"  # Change this to test other types, like "restaurant"
 
     places = get_nearby_places(location, radius, place_type)
     if places:
