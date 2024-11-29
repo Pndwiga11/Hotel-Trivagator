@@ -46,6 +46,9 @@ def plan():
     place_type = interests[0] if interests else "tourist_attraction" # To allow for the input bias
     """
 
+    if not interests:
+        interests = ["tourist_attraction"]  # Default interest if none are selected
+
     # Fetch places for each interest using API
     places = []
     for interest in interests:
@@ -64,6 +67,29 @@ def plan():
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
 
+    print("DFS Result:", dfs_result)
+    print("Dijkstra Result:", dijkstra_result)
+
+   #split result into days
+    def split_days(result,duration):
+
+        if not result or duration <= 0:
+            return [[] for _ in range(duration)]
+
+        places_per_day = max(1,len(result)//duration)
+        days = [result[i:i + places_per_day] for i in range(0, len(result), places_per_day)]
+
+        while len(days) > duration:
+            days[-2].extend(days[-1])
+            days.pop()
+
+        while len(days) < duration:
+            days.append([])
+        return days
+
+    dfs_itinerary = split_days(dfs_result, int(duration))
+    dijkstra_itinerary = split_days(dijkstra_result, int(duration))
+
 
     # Mock data for demonstration
     # This section was to use sample testing data
@@ -81,7 +107,7 @@ def plan():
     """
 
     # Render results in a new template
-    return render_template("results.html", dfs=dfs_result, dijkstra=dijkstra_result, G=graph)
+    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph)
 
 def check_budget(budget, duration): #tells user if budget is too low based on destination and duration
     min_budget = 50 * int(duration) #at least 50 dollars a day (can change later)
