@@ -67,9 +67,6 @@ def plan():
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
 
-    print("DFS Result:", dfs_result)
-    print("Dijkstra Result:", dijkstra_result)
-
    #split result into days
     def split_days(result,duration):
 
