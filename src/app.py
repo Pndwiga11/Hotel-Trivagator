@@ -26,12 +26,12 @@ def plan():
 
     is_valid_budget, min_budget = check_budget(budget, duration)
     if not is_valid_budget:
-        return f"Error: Budget is too low. Minimum budget is ${min_budget}.", 400
+        return render_template("index.html", error=f"Error: Budget is too low. Minimum budget is ${min_budget}.")
     
     # Geocode the destination
     lat, lon = get_lat_lon(destination)
     if lat is None or lon is None:
-        return "Error: Unable to determine location. Please try again.", 400
+        return render_template("index.html", error="Error: Unable to determine location. Please try again.")
     
     # Convert to location string
     location = f"{lat}, {lon}"
