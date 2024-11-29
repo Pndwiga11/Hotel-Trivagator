@@ -12,12 +12,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel? Trivagator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Hotel? Trivagator</h1>
 
     {% if error %}
-        <p style="color: red;">{{ error }}</p>
+        <p class="error">{{ error }}</p>
     {% endif %}
 
     <form action="/plan" method="POST">
@@ -41,7 +42,7 @@
         <label for="shopping">Shopping</label><br><br>
 
 
-        <button type="submit">Generate Itinerary</button>
+        <button type="submit" class="btn">Generate Itinerary</button>
     </form>
 </body>
 </html>

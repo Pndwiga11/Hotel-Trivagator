@@ -1,0 +1,107 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+
+form label[for="interests"] {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+form input[type="checkbox"] {
+    margin: 5px 10px 5px 0;
+    display: inline-block;
+}
+
+form label {
+    display: inline;
+    margin-right: 20px;
+}
+
+/* Form Styling */
+form {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, button, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    width: auto;
+}
+
+button {
+    background: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+/* Error Message */
+p.error {
+    color: red;
+    text-align: center;
+    margin: 10px auto;
+}
+
+/* Results Page */
+ol {
+    list-style: none;
+    padding: 0;
+}
+
+ol li {
+    background: #fff;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    display: block;
+    text-align: center;
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
