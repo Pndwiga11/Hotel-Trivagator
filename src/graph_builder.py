@@ -67,9 +67,9 @@ def visualize_graph(G):
 if __name__ == "__main__":
     # Example list of places
     places = [
-        {"name": "Museum A", "address": "123 Main St", "rating": 4.5},
-        {"name": "Park B", "address": "456 Elm St", "rating": 4.2},
-        {"name": "Restaurant C", "address": "789 Oak St", "rating": 4.8},
+        {"name": "Museum A", "address": "123 Main St", "rating": 4.5, "lat": 40.7128, "lon": -74.0060},
+        {"name": "Park B", "address": "456 Elm St", "rating": 4.2, "lat": 40.7138, "lon": -74.0070},
+        {"name": "Restaurant C", "address": "789 Oak St", "rating": 4.8, "lat": 40.7148, "lon": -74.0080},
     ]
 
     # Create and visualize the graph
