@@ -17,7 +17,7 @@ def create_graph(places):
     Returns:
         nx.Graph: A graph with places as nodes and edges based on distances.
     """
-    G = nx.Graph()
+    G = nx.Graph() # Empty graph object using NetworkX
 
     # Add nodes with attributes
     for idx, place in enumerate(places):
@@ -27,13 +27,15 @@ def create_graph(places):
     destinations = [f"{place['lat']},{place['lon']}" for place in places]
 
     # Add edges with distances as weights
+    # Iterate through all unique pairs of places (no duplicate edges) using itertools.combinations
     for i, j in itertools.combinations(range(len(places)), 2):
-        # Get distances between place i and place j
+        # Calculate distance between place i and place j
         distances = get_distances(destinations[i], [destinations[j]])
+        # Don't includes edges that are empty or equal to infinity
         if distances and distances[0] != float('inf'):
-            G.add_edge(i, j, weight=distances[0])  # Add edge with distance as weight
+            G.add_edge(i, j, weight=distances[0])  # Add edge with distance[0] as weight
 
-    # Old implementation that creates an unweighted graph (if everything has the same weight it is technically unweighted)
+    # Old implementation that creates an unweighted graph (each edge has weight of 1 so it's technically unweighted)
     """
     # Add edges (for simplicity, connect every node to every other node with dummy weights)
     for i in range(len(places)):
