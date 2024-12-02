@@ -1,9 +1,16 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    overflow: hidden;
+}
+
+body {
+    background-image: url('/static/images/1619851207_shutterstock_1725788194.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
     color: #333;
     line-height: 1.6;
 }
