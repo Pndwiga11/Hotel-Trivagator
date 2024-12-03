@@ -15,6 +15,10 @@ def dijkstra_path(graph, start_node, end_node):
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
     
+    # Access nodes from the ints input
+    start_node = graph[start_node] 
+    end_node = graph[end_node]
+    
     # Check for if the node is out of the graph/DNE
     if start_node not in graph or end_node not in graph: return
 
@@ -44,7 +48,6 @@ def dijkstra_path(graph, start_node, end_node):
         return []
 
 # Create Map where each node becomes source node and we store shortest path to all other nodes
-
 
 # Sample usage
 if __name__ == "__main__":
