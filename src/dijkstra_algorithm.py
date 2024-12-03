@@ -16,67 +16,65 @@ def dijkstra_path(graph, start_node, end_node):
     """
     
     # Create Table with start_node as source and each_node, weight, and predecessor
-    S = {start_node} # Track nodes used as secondary sources in a set
+    S = set() # Track nodes used as secondary sources in a set
     VS = set(graph.nodes()) # Track nodes not yet used as temp source in a set
+    # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
+    distances = {node: float('inf') for node in VS}
+    predecessor = {node: None for node in VS}
+    VS.remove(start_node) # Remove source node from VS
+    distances[start_node] = 0 # Initialize source node distance
 
     # Check for if the node is out of the graph/DNE
-    if start_node not in VS or end_node not in VS: return
+    if start_node not in VS or end_node not in VS: 
+        print("Start/end node not in graph")
+        return None
 
-    # Remove source node from VS
-    VS.remove(start_node) 
-
-    distances = {}
-    predecessor = {}
-    # Initialize source node
-    distances[start_node] = 0
-    predecessor[start_node] = -1
     print(VS)
-
-    # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
-    for neighbor in VS: 
-        if graph.has_edge(start_node, neighbor): # Check if edge exists
-            distances[neighbor] = graph[start_node][neighbor]['weight']
-            print("The weight is: " + str(graph[start_node][neighbor]['weight']))
-            predecessor[neighbor] = start_node
-            print(predecessor[neighbor])
-        else:
-            distances[neighbor] = float('inf')
-            predecessor[neighbor] = -1
 
     # Perform Dijkstra's til VS is empty
     while VS: 
         # Find what will be the next temporary source node
-        min_dv = min(distances, key=distances.get)
-        # Get that shortest distance
-        min_value = distances[min_dv]
+        min_dv = min(distances, key=distances.get) # Index of node that has shortest distance
+        min_value = distances[min_dv] # Value of that shortest distance
+        if min_dv == float('inf'): break # left over nodes can't be reached
         print("The shorted Node: " + str(min_dv))
         print("The shortest Node is: " + str(min_value))
         VS.remove(min_dv)
         S.add(min_dv) 
-        start_node = min_dv # Change temporary source node
+        # start_node = min_dv # Change temporary source node
 
-        # Edge relaxation
-        for neighbor in VS and neighbor not in S: 
-            if graph.has_edge(start_node, neighbor): # See if edge exists
-                new_distance = distances[start_node] + graph[start_node][neighbor]['weight']
+        # Edge relaxation for neighbors of current source node (min_dv)
+        for neighbor in graph.neighbors(min_dv): 
+            if neighbor in VS: # Only relax if neighbor hasn't been visited yet
+                new_distance = distances[min_dv] + graph[min_dv][neighbor]['weight']
                 if new_distance < distances[neighbor]: # Check if edge is less than current
-                    distances[neighbor] = graph[start_node][neighbor]['weight'] + distances[start_node]
+                    distances[neighbor] = new_distance
                     print("The new weight is: " + str(graph[start_node][neighbor]['weight']))
-                    predecessor[neighbor] = start_node
+                    predecessor[neighbor] = min_dv
                     print("The new predecessor is: " + predecessor[neighbor])
 
+    # Build path by going backwards from end node to start node
+    path = []
+    current_node = end_node
+    while current_node is not None:
+        path.append(current_node)
+        current_node = predecessor[current_node] 
 
-    return min_value
+    path.reverse() # Reverse to get in correct order from start to end
+
+    # Confirm that path is valid since should start with start node
+    if path[0] == start_node:
+        return path
+    else: return None        
     
-        
-    
+    '''
     try:
         path = nx.shortest_path(graph, source=start_node, target=end_node, weight="weight")
         return path
     except nx.NetworkXNoPath:
         print("No path exists between the nodes.")
         return []
-    
+    '''
 
 # Create Map where each node becomes source node and we store shortest path to all other nodes
 
