@@ -15,9 +15,22 @@ def dijkstra_path(graph, start_node, end_node):
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
     
-    # Note: Check for if the node is out of the graph/DNE
-    # TODO: Actually create dijkstra's and not just using build in:
-    
+    # Check for if the node is out of the graph/DNE
+    if start_node not in graph or end_node not in graph: return
+
+    # Create Table with start_node as source and each_node, weight, and predecessor
+    S = set(start_node) # Track nodes used as secondary sources
+    VS = set(graph.neighbors(start_node)) # Track nodes not yet visited
+    distances = {}
+    predecessor = {}
+
+    # Initialize table with infinity as distance and empty predecessor
+    for neighbor in VS: distances[neighbor] = float('inf')
+
+    #for neighbor in VS:
+
+
+        
 
     try:
         path = nx.shortest_path(graph, source=start_node, target=end_node, weight="weight")
