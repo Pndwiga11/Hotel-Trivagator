@@ -14,30 +14,42 @@ def dijkstra_path(graph, start_node, end_node):
     Returns:
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
-    '''
-    # Access nodes from the ints input
-    start_node = graph[start_node] 
-    end_node = graph[end_node]
     
-    # Check for if the node is out of the graph/DNE
-    if start_node not in graph or end_node not in graph: return
-
+    # Access nodes from the ints input
+    #start_node = graph[start_node] 
+    #end_node = graph[end_node]
+    
     # Create Table with start_node as source and each_node, weight, and predecessor
-    S = set(start_node) # Track nodes used as secondary sources
-    VS = set(graph.nodes()) # Track nodes not yet visited (all other nodes in graph)
+    S = {start_node} # Track nodes used as secondary sources in a set
+    VS = set(graph.nodes()) # Track nodes not yet visited (all other nodes in graph) in a set
     distances = {}
     predecessor = {}
 
+    # Check for if the node is out of the graph/DNE
+    if start_node not in VS or end_node not in VS: return
+
+    VS.remove(start_node) # Remove source node from VS
+    print(VS)
+
     # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
     for neighbor in VS: 
-        distances[neighbor] = float('inf')
-        predecessor[neighbor] = -1
         if graph.has_edge(start_node, neighbor): # Check if edge exists
             distances[neighbor] = graph[start_node][neighbor]['weight']
+            print("The weight is: " + str(graph[start_node][neighbor]['weight']))
             predecessor[neighbor] = start_node
+            print(predecessor[neighbor])
+        else:
+            distances[neighbor] = float('inf')
+            predecessor[neighbor] = -1
 
-    return 2
-    '''
+    # while VS: # Continue til VS is empty
+
+    
+    # if (graph[start_node][neighbor]['weight'] < distances[neighbor]): distances[neighbor] = graph[start_node][neighbor]['weight']
+
+
+    return 6
+    
         
     
     try:
@@ -80,5 +92,5 @@ if __name__ == "__main__":
     shortest_path = dijkstra_path(G, start_node, end_node) # Doesn't account for directions!!!
     
     # Will update this to track the total weight
-    
+    #print(set(G.nodes()))
     print("Shortest Path:", shortest_path)
