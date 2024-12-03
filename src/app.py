@@ -66,7 +66,9 @@ def plan():
     # Create graph and run algorithms
     graph = create_graph(places)
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
-    dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
+    shortest_path = []
+    dijkstra_result_length = dijkstra_path(graph, start_node=0, end_node=len(places) - 1, shortest_path=[])
+    dijkstra_result = shortest_path
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
 

@@ -87,8 +87,8 @@ if __name__ == "__main__":
     ])
 
     # Run Dijkstra's algorithm
-    start_node = 0
-    end_node = 3
+    start_node = 2
+    end_node = 1
     shortest_path = [] # Pass in a list since its mutable 
     total_length = dijkstra_path(G, start_node, end_node, shortest_path) # Shortest in undirected path
     # path = nx.shortest_path(G, source=start_node, target=end_node, weight="weight") # Uses built-in dijkstra's from networkx to debug
@@ -96,3 +96,4 @@ if __name__ == "__main__":
 
     print("The total length is: ", total_length)
     print("The shortest Path:", shortest_path)
+    shortest_path = [] # Reset path
