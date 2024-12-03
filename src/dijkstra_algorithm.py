@@ -15,20 +15,21 @@ def dijkstra_path(graph, start_node, end_node):
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
     
-    # Access nodes from the ints input
-    #start_node = graph[start_node] 
-    #end_node = graph[end_node]
-    
     # Create Table with start_node as source and each_node, weight, and predecessor
     S = {start_node} # Track nodes used as secondary sources in a set
-    VS = set(graph.nodes()) # Track nodes not yet visited (all other nodes in graph) in a set
-    distances = {}
-    predecessor = {}
+    VS = set(graph.nodes()) # Track nodes not yet used as temp source in a set
 
     # Check for if the node is out of the graph/DNE
     if start_node not in VS or end_node not in VS: return
 
-    VS.remove(start_node) # Remove source node from VS
+    # Remove source node from VS
+    VS.remove(start_node) 
+
+    distances = {}
+    predecessor = {}
+    # Initialize source node
+    distances[start_node] = 0
+    predecessor[start_node] = -1
     print(VS)
 
     # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
@@ -42,13 +43,30 @@ def dijkstra_path(graph, start_node, end_node):
             distances[neighbor] = float('inf')
             predecessor[neighbor] = -1
 
-    # while VS: # Continue til VS is empty
+    # Perform Dijkstra's til VS is empty
+    while VS: 
+        # Find what will be the next temporary source node
+        min_dv = min(distances, key=distances.get)
+        # Get that shortest distance
+        min_value = distances[min_dv]
+        print("The shorted Node: " + str(min_dv))
+        print("The shortest Node is: " + str(min_value))
+        VS.remove(min_dv)
+        S.add(min_dv) 
+        start_node = min_dv # Change temporary source node
 
-    
-    # if (graph[start_node][neighbor]['weight'] < distances[neighbor]): distances[neighbor] = graph[start_node][neighbor]['weight']
+        # Edge relaxation
+        for neighbor in VS and neighbor not in S: 
+            if graph.has_edge(start_node, neighbor): # See if edge exists
+                new_distance = distances[start_node] + graph[start_node][neighbor]['weight']
+                if new_distance < distances[neighbor]: # Check if edge is less than current
+                    distances[neighbor] = graph[start_node][neighbor]['weight'] + distances[start_node]
+                    print("The new weight is: " + str(graph[start_node][neighbor]['weight']))
+                    predecessor[neighbor] = start_node
+                    print("The new predecessor is: " + predecessor[neighbor])
 
 
-    return 6
+    return min_value
     
         
     
