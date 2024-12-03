@@ -3,6 +3,7 @@ from utils import get_distances
 
 import networkx as nx
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import itertools
 
 # Note: Fix the Pylance issues with these imports
@@ -45,7 +46,7 @@ def create_graph(places):
     
     return G
 
-def visualize_graph(G):
+def visualize_graph(G, filename="static/graph.png"):
     """
     Visualize the graph using Matplotlib.
     
@@ -62,7 +63,70 @@ def visualize_graph(G):
     nx.draw_networkx_labels(G, pos, labels=labels, font_size=8)
 
     plt.title("Graph Representation of Places")
-    plt.show()
+    plt.savefig(filename)
+    plt.close()
+
+
+def visualize_graph_interactive(G, filename="static/interactive_graph.html"):
+    """
+    Create an interactive graph visualization and save it as an HTML file.
+
+    Parameters:
+        G (nx.Graph): The graph to visualize.
+        filename (str): The file path to save the interactive graph.
+    """
+    pos = nx.spring_layout(G)  # spring layout to position nodes
+    edge_x, edge_y = [], []
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+
+    # Create edge trace
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=0.5, color='#888'),
+        hoverinfo='none',
+        mode='lines'
+    )
+
+    # Create node traces
+    # Points that represent nodes
+    node_x, node_y = zip(*[pos[node] for node in G.nodes()])
+    node_labels = [G.nodes[node].get("name", str(node)) for node in G.nodes()]
+    node_trace = go.Scatter(
+        x=node_x,
+        y=node_y,
+        mode="markers+text",
+        text=node_labels,  # Add labels for nodes
+        textposition="top center",
+        hoverinfo="text",
+        marker=dict(
+            size=15,
+            color="lightblue",
+            line=dict(width=2, color="darkblue"),
+        ),
+    )
+
+    # Combine traces into a figure
+    fig = go.Figure(
+        data=[edge_trace, node_trace],
+        layout=go.Layout(
+            title="Interactive Graph Representation of Places",
+            showlegend=False,
+            hovermode='closest',
+            margin=dict(b=0, l=0, r=0, t=30),
+            xaxis=dict(showgrid=False, zeroline=False),
+            yaxis=dict(showgrid=False, zeroline=False),
+            dragmode = "pan",
+        )
+    )
+
+
+    # Save the interactive graph as an HTML file
+    fig.write_html(filename)
+    print(f"Interactive graph successfully saved at {filename}")
 
 if __name__ == "__main__":
     # Example list of places

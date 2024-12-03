@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
-from graph_builder import create_graph, visualize_graph
+from graph_builder import create_graph, visualize_graph, visualize_graph_interactive
 from dfs_algorithm import dfs_path
 from dijkstra_algorithm import dijkstra_path
 from api_test import get_nearby_places, get_lat_lon
+import networkx as nx
 
 # Note: Fix the Pylance issues with this import
 # Note: Do some more research with Flask routing for new ideas
@@ -67,8 +68,13 @@ def plan():
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
 
+
     print("DFS Result:", dfs_result)
     print("Dijkstra Result:", dijkstra_result)
+
+    #visualize graph to user
+    visualize_graph(graph)
+    visualize_graph_interactive(graph)
 
    #split result into days
     def split_days(result,duration):
@@ -114,6 +120,12 @@ def check_budget(budget, duration): #tells user if budget is too low based on de
     if int (budget) < min_budget:
         return False, min_budget
     return True, min_budget
+
+
+@app.route("/graph/interactive")
+def graph_interactive():
+    return render_template("graph.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
