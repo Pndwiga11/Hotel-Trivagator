@@ -3,7 +3,7 @@ import heapq
 
 # Note: Fix the Pylance issues with this import
 
-def dijkstra_path(graph, start_node, end_node):
+def dijkstra_path(graph, start_node, end_node, path):
     """
     Perform Dijkstra's algorithm to find the shortest path between two nodes in the graph.
 
@@ -12,18 +12,12 @@ def dijkstra_path(graph, start_node, end_node):
         start_node (int): The starting node.
         end_node (int): The destination node.
     
-    Returns:
+    Modifies (mutable object):
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
+
+    Returns (immutable object):
+        total_length (int) : The total length of the shortest path
     """
-    
-    '''
-    try:
-        path = nx.shortest_path(graph, source=start_node, target=end_node, weight="weight")
-        return path
-    except nx.NetworkXNoPath:
-        print("No path exists between the nodes.")
-        return []
-    '''
 
     # Check for if the nodes are out of the graph/DNE
     if start_node not in graph.nodes or end_node not in graph.nodes: 
@@ -32,13 +26,9 @@ def dijkstra_path(graph, start_node, end_node):
 
     pq = [(0, start_node)] # priority queue to store (distance, node)
 
-    #S = set() # Track nodes used as secondary sources in a set
-    #VS = heapq(graph.nodes()) # Track nodes not yet used as temp source in a set
-
-    # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
+    # Initialize table with d[v] = infinity (distance); p[v] = None (predecessor)
     distances = {node: float('inf') for node in graph.nodes}
     predecessor = {node: None for node in graph.nodes}
-    # VS.remove(start_node) # Remove source node from VS
     distances[start_node] = 0 # Initialize source node distance
 
     # Perform Dijkstra's til pq is empty
@@ -59,20 +49,18 @@ def dijkstra_path(graph, start_node, end_node):
                 heapq.heappush(pq, (new_distance, neighbor)) # Add new distance and node pair
                   
     # Build path by going backwards from end node to start node
-    path = []
+    total_length = 0
     current_node = end_node
     while current_node is not None:
         path.append(current_node)
+        total_length += distances[current_node] # Add distance to total length
         current_node = predecessor[current_node] 
 
     path.reverse() # Reverse to get in correct order from start to end
+    if path[0] != start_node: path = None # Confirm that path is valid since it should start with start node
+    
+    return total_length # Return the total length of that path       
 
-    # Confirm that path is valid since should start with start node
-    if path[0] == start_node: return path
-    else: return None        
-
-
-# Create Map where each node becomes source node and we store shortest path to all other nodes
 
 # Sample usage
 if __name__ == "__main__":
@@ -101,8 +89,10 @@ if __name__ == "__main__":
     # Run Dijkstra's algorithm
     start_node = 0
     end_node = 3
-    shortest_path = dijkstra_path(G, start_node, end_node) # Shortest in undirected path
-    
-    # Will update this to track the total weight
-    #print(set(G.nodes()))
-    print("New shortest Path:", shortest_path)
+    shortest_path = [] # Pass in a list since its mutable 
+    total_length = dijkstra_path(G, start_node, end_node, shortest_path) # Shortest in undirected path
+    # path = nx.shortest_path(G, source=start_node, target=end_node, weight="weight") # Uses built-in dijkstra's from networkx to debug
+    # print("Example shortest Path:", path) 
+
+    print("The total length is: ", total_length)
+    print("The shortest Path:", shortest_path)
