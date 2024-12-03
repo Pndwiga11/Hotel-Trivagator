@@ -14,7 +14,7 @@ def dijkstra_path(graph, start_node, end_node):
     Returns:
         path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
-    
+    '''
     # Access nodes from the ints input
     start_node = graph[start_node] 
     end_node = graph[end_node]
@@ -36,16 +36,17 @@ def dijkstra_path(graph, start_node, end_node):
             distances[neighbor] = graph[start_node][neighbor]['weight']
             predecessor[neighbor] = start_node
 
-
-
+    return 2
+    '''
         
-
+    
     try:
         path = nx.shortest_path(graph, source=start_node, target=end_node, weight="weight")
         return path
     except nx.NetworkXNoPath:
         print("No path exists between the nodes.")
         return []
+    
 
 # Create Map where each node becomes source node and we store shortest path to all other nodes
 
@@ -75,9 +76,9 @@ if __name__ == "__main__":
 
     # Run Dijkstra's algorithm
     start_node = 0
-    end_node = 5
-    shortest_path = dijkstra_path(G, start_node, end_node)
+    end_node = 3
+    shortest_path = dijkstra_path(G, start_node, end_node) # Doesn't account for directions!!!
     
-    # Note: Should I update this to also track the total weight??
+    # Will update this to track the total weight
     
     print("Shortest Path:", shortest_path)
