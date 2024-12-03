@@ -20,14 +20,18 @@ def dijkstra_path(graph, start_node, end_node):
 
     # Create Table with start_node as source and each_node, weight, and predecessor
     S = set(start_node) # Track nodes used as secondary sources
-    VS = set(graph.neighbors(start_node)) # Track nodes not yet visited
+    VS = set(graph.nodes()) # Track nodes not yet visited (all other nodes in graph)
     distances = {}
     predecessor = {}
 
-    # Initialize table with infinity as distance and empty predecessor
-    for neighbor in VS: distances[neighbor] = float('inf')
+    # Initialize table with d[v] = infinity (distance); p[v] = -1 (predecessor)
+    for neighbor in VS: 
+        distances[neighbor] = float('inf')
+        predecessor[neighbor] = -1
+        if graph.has_edge(start_node, neighbor): # Check if edge exists
+            distances[neighbor] = graph[start_node][neighbor]['weight']
+            predecessor[neighbor] = start_node
 
-    #for neighbor in VS:
 
 
         
