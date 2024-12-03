@@ -4,7 +4,7 @@ import networkx as nx
 
 def dijkstra_path(graph, start_node, end_node):
     """
-    Perform Dijkstra's algorithm to find the shortest path in the graph.
+    Perform Dijkstra's algorithm to find the shortest path between two nodes in the graph.
 
     Parameters:
         graph (nx.Graph): The graph to search.
@@ -12,16 +12,22 @@ def dijkstra_path(graph, start_node, end_node):
         end_node (int): The destination node.
     
     Returns:
-        list: The shortest path from start_node to end_node.
+        path (list) : The shortest path from start_node to end_node; example it returns [0,2,6,5] for path from node 0 to 5
     """
-    # Note: Check for if the node is out of the graph/DNE
     
+    # Note: Check for if the node is out of the graph/DNE
+    # TODO: Actually create dijkstra's and not just using build in:
+    
+
     try:
         path = nx.shortest_path(graph, source=start_node, target=end_node, weight="weight")
         return path
     except nx.NetworkXNoPath:
         print("No path exists between the nodes.")
         return []
+
+# Create Map where each node becomes source node and we store shortest path to all other nodes
+
 
 # Sample usage
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ def create_graph(places):
             G.add_edge(i, j, weight=1)  # Replace '1' with actual distance if available
     """
     
-    return G
+    return G 
 
 def visualize_graph(G, filename="static/graph.png"):
     """
@@ -54,11 +54,11 @@ def visualize_graph(G, filename="static/graph.png"):
         G (nx.Graph): The graph to visualize.
     """
 
-    # Extract labels for visualization
+    # Create dictionary (labels) where key=Node index, value=Node name
     labels = nx.get_node_attributes(G, 'name')
 
     # Draw the graph
-    pos = nx.spring_layout(G)  # Position nodes using a spring layout
+    pos = nx.spring_layout(G)  # Spring layout where nodes repel eachother more with greater distances
     nx.draw(G, pos, with_labels=False, node_size=3000, node_color='lightpink', font_size=8)
     nx.draw_networkx_labels(G, pos, labels=labels, font_size=8)
 

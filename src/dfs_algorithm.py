@@ -12,10 +12,10 @@ def dfs_path(graph, start_node, preference=None):
         preference (str): Optional attribute to prioritize during traversal (e.g., "rating").
     
     Returns:
-        list: A path traversed by DFS.
+        path (list) : A path traversed by DFS.
     """
-    visited = set() # We <3 sets in coding
-    path = []
+    visited = set() # We <3 sets in coding; Avoid revisiting same node
+    path = [] # Stores order of nodes in DFS traversal
 
     def dfs(node):
         if node not in visited:
@@ -24,13 +24,13 @@ def dfs_path(graph, start_node, preference=None):
 
             neighbors = list(graph.neighbors(node))
             if preference:
+                # Sort neighbors based on preference, like descending ratings, if provided
                 neighbors.sort(key=lambda n: graph.nodes[n].get(preference, 0), reverse=True)
-                # Sort neighbors based on preference, like a really high rating, if provided
-
+                
             for neighbor in neighbors:
                 dfs(neighbor)
 
-    dfs(start_node)
+    dfs(start_node) # Call dfs on start node
     return path
 
 # Example usage
