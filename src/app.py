@@ -68,6 +68,27 @@ def plan():
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
 
+    dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
+
+
+    visualize_graph_interactive(
+        graph,
+        filename="static/dfs_graph.html",
+        edge_highlight=dfs_edges,
+        node_order=dfs_result,
+        title="DFS Traversal Visualization"
+    )
+
+    shortest_path_edges = [(u, v) for u, v in zip(dijkstra_result[:-1], dijkstra_result[1:])]
+
+    visualize_graph_interactive(
+        graph,
+        filename="static/dijkstra_graph.html",
+        edge_highlight=shortest_path_edges,
+        title="Dijkstra's Shortest Path Visualization"
+    )
+
+
 
     print("DFS Result:", dfs_result)
     print("Dijkstra Result:", dijkstra_result)
@@ -77,18 +98,26 @@ def plan():
     visualize_graph_interactive(graph)
 
    #split result into days
-    def split_days(result,duration):
+    def split_days(result, duration):
 
         if not result or duration <= 0:
             return [[] for _ in range(duration)]
 
-        places_per_day = max(1,len(result)//duration)
+        # calculates places to visit per day by dividing length of list of places by amount of days
+        # uses max to ensure that there is at least one destination per day
+        places_per_day = max(1, len(result)//duration)
+
+        # splits the results into days
+        # skips places per day each loop for no repetition
+        # slices result up until places per day
         days = [result[i:i + places_per_day] for i in range(0, len(result), places_per_day)]
 
+        # If number of days is greater than duration, merge the extra days with the second-to-last day.
         while len(days) > duration:
-            days[-2].extend(days[-1])
-            days.pop()
+            days[-2].extend(days[-1])   # Merges last day into second to last day
+            days.pop()   # Removes empty last day
 
+        # Adds extra empty days if not enough places
         while len(days) < duration:
             days.append([])
         return days
@@ -113,7 +142,8 @@ def plan():
     """
 
     # Render results in a new template
-    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph)
+    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph, dfs_graph_path="/static/dfs_graph.html",
+        dijkstra_graph_path="/static/dijkstra_graph.html")
 
 def check_budget(budget, duration): #tells user if budget is too low based on destination and duration
     min_budget = 50 * int(duration) #at least 50 dollars a day (can change later)

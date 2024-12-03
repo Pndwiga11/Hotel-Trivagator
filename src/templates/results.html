@@ -19,9 +19,12 @@
 <div class="container">
     <h1>Your Trip Itinerary</h1>
 
-    <a href="/graph/interactive">View Interactive Graph</a>
-
     <h2>DFS Itinerary</h2>
+<div class="graph-links">
+    <a href="{{ dfs_graph_path }}" target="_blank" class="large-link" title="View the DFS traversal graph">View DFS Graph</a>
+</div>
+
+
       {% for places in dfs_itinerary %}
         <h3>Day {{ loop.index }}</h3>
     <ol>
@@ -36,6 +39,11 @@
  {% endfor %}
 
     <h2>Dijkstra's Itinerary</h2>
+
+       <div class="graph-links">
+    <a href="{{ dijkstra_graph_path }}" target="_blank" class="large-link" title="View Dijkstra's shortest path graph">View Dijkstra's Graph</a>
+</div>
+
     {% for places in dijkstra_itinerary %}
         <h3>Day {{ loop.index }}</h3>
     <ol>
@@ -51,6 +59,5 @@
     <a href="/">Plan Another Trip</a>
     </div>
 
-</body>
 </body>
 </html>

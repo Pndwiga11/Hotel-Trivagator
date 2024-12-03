@@ -123,3 +123,19 @@ a:hover {
     text-decoration: underline;
 }
 
+.large-link {
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #0066cc;
+    margin-bottom: 15px;
+}
+
+.large-link:hover {
+    text-decoration: underline;
+    color: #004499;
+}
+
+.graph-links {
+    margin: 10px 0; /* Adds spacing around the link container */
+}
