@@ -3,7 +3,7 @@ import heapq
 
 # Note: Fix the Pylance issues with this import
 
-def dijkstra_path(graph, start_node, end_node, path):
+def dijkstra_path(graph, path, start_node, end_node):
     """
     Perform Dijkstra's algorithm to find the shortest path between two nodes in the graph.
 
@@ -87,10 +87,10 @@ if __name__ == "__main__":
     ])
 
     # Run Dijkstra's algorithm
-    start_node = 2
+    start_node = 3
     end_node = 1
     shortest_path = [] # Pass in a list since its mutable 
-    total_length = dijkstra_path(G, start_node, end_node, shortest_path) # Shortest in undirected path
+    total_length = dijkstra_path(G, shortest_path, start_node, end_node) # Shortest in undirected path
     # path = nx.shortest_path(G, source=start_node, target=end_node, weight="weight") # Uses built-in dijkstra's from networkx to debug
     # print("Example shortest Path:", path) 
 
