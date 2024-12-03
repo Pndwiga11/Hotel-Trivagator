@@ -67,39 +67,81 @@ def visualize_graph(G, filename="static/graph.png"):
     plt.close()
 
 
-def visualize_graph_interactive(G, filename="static/interactive_graph.html"):
+def visualize_graph_interactive(G, filename="static/interactive_graph.html", edge_highlight=None, node_order=None, title="Interactive Graph"):
     """
     Create an interactive graph visualization and save it as an HTML file.
 
     Parameters:
         G (nx.Graph): The graph to visualize.
         filename (str): The file path to save the interactive graph.
+        edge_highlight (list of tuples): List of edges to highlight (e.g., DFS or Dijkstra edges).
+        node_order (list): The order of nodes for labeling traversal steps.
+        title (str): Title of the interactive graph.
     """
-    pos = nx.spring_layout(G)  # spring layout to position nodes
-    edge_x, edge_y = [], []
-    for edge in G.edges():
-        x0, y0 = pos[edge[0]]
-        x1, y1 = pos[edge[1]]
-        edge_x.extend([x0, x1, None])
-        edge_y.extend([y0, y1, None])
+    pos = nx.spring_layout(G)  # spring layout to position nodes in graph
 
-    # Create edge trace
-    edge_trace = go.Scatter(
-        x=edge_x, y=edge_y,
-        line=dict(width=0.5, color='#888'),
-        hoverinfo='none',
-        mode='lines'
+    highlighted_edges = []
+    default_edges = []
+
+    # Separates highlighted and default edges
+    for edge in G.edges():
+        if edge_highlight and (edge in edge_highlight or (edge[1], edge[0]) in edge_highlight):
+            highlighted_edges.append(edge)
+        else:
+            default_edges.append(edge)
+
+    # Create edge trace for default edges
+    # Edge traces are the actual lines for the edges
+    default_edge_x, default_edge_y = [], []
+    for edge in default_edges:
+        x0, y0 = pos[edge[0]]   # start position of edge
+        x1, y1 = pos[edge[1]]   # end position of edge
+        default_edge_x.extend([x0, x1, None])  # Append x-coordinates
+        default_edge_y.extend([y0, y1, None])  #Append y-coordinates
+
+    # Default edges are gray
+    default_edge_trace = go.Scatter(
+        x=default_edge_x,
+        y=default_edge_y,
+        line=dict(width=1, color="gray"),
+        hoverinfo="none",
+        mode="lines",
     )
 
-    # Create node traces
-    # Points that represent nodes
-    node_x, node_y = zip(*[pos[node] for node in G.nodes()])
-    node_labels = [G.nodes[node].get("name", str(node)) for node in G.nodes()]
+    # Creates trace for highlighted edges
+    highlighted_edge_x, highlighted_edge_y = [], []
+    for edge in highlighted_edges:
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        highlighted_edge_x.extend([x0, x1, None])
+        highlighted_edge_y.extend([y0, y1, None])
+
+    # Thicker red lines for highlighted trace
+    highlighted_edge_trace = go.Scatter(
+        x=highlighted_edge_x,
+        y=highlighted_edge_y,
+        line=dict(width=4, color="red"),
+        hoverinfo="none",
+        mode="lines",
+    )
+
+
+    # Create node coordinates and labels
+    node_x, node_y = zip(*[pos[node] for node in G.nodes()])   # Gets the x and y positions of each node
+    node_labels = []
+    for node in G.nodes():
+        name = G.nodes[node].get("name", f"Node {node}")
+        if node_order and node in node_order:   # Checks if node is part of the traversal
+            order = node_order.index(node) + 1  # Gets the order number of the traversal
+            node_labels.append(f"{name} (Order: {order})")   # Append name and order
+        else:  # This is if node is not part of traversal
+            node_labels.append(name)
+
     node_trace = go.Scatter(
         x=node_x,
         y=node_y,
         mode="markers+text",
-        text=node_labels,  # Add labels for nodes
+        text=node_labels,  # Labels for nodes
         textposition="top center",
         hoverinfo="text",
         marker=dict(
@@ -111,7 +153,7 @@ def visualize_graph_interactive(G, filename="static/interactive_graph.html"):
 
     # Combine traces into a figure
     fig = go.Figure(
-        data=[edge_trace, node_trace],
+        data=[default_edge_trace, highlighted_edge_trace, node_trace],
         layout=go.Layout(
             title="Interactive Graph Representation of Places",
             showlegend=False,
@@ -119,7 +161,7 @@ def visualize_graph_interactive(G, filename="static/interactive_graph.html"):
             margin=dict(b=0, l=0, r=0, t=30),
             xaxis=dict(showgrid=False, zeroline=False),
             yaxis=dict(showgrid=False, zeroline=False),
-            dragmode = "pan",
+            dragmode="pan",
         )
     )
 
@@ -143,6 +185,6 @@ if __name__ == "__main__":
     print("DFS Result:", dfs_result)
     
     visualize_graph(G)
-    
+
     
 
