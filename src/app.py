@@ -27,7 +27,7 @@ def plan():
 
     is_valid_budget, min_budget = check_budget(budget, duration)
     if not is_valid_budget:
-        return render_template("index.html", error=f"Error: Budget is too low. Minimum budget is ${min_budget}.")
+        return render_template("index.html", error=f"Error: Budget is too low. Minimum budget is ${min_budget/5} per day.")
     
     # Geocode the destination
     lat, lon = get_lat_lon(destination)
@@ -55,7 +55,7 @@ def plan():
     for interest in interests:
         places += get_nearby_places(location, radius, interest)
     
-    # Limit the output within budget (example: 50$ per location per day)
+    # Limit the output within budget (example: $50 per location per day)
     max_places = int(budget) // (50 * int(duration))
     places = places[:max_places]
 
@@ -67,11 +67,10 @@ def plan():
     graph = create_graph(places)
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     shortest_path = []
-    dijkstra_result_length = dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
     dijkstra_result = shortest_path
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
-
 
     visualize_graph_interactive(
         graph,
@@ -89,7 +88,6 @@ def plan():
         edge_highlight=shortest_path_edges,
         title="Dijkstra's Shortest Path Visualization"
     )
-
 
 
     print("DFS Result:", dfs_result)
@@ -140,7 +138,8 @@ def plan():
 
     # Run DFS and Dijkstra
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
-    dijkstra_result = dijkstra_path(graph, start_node=0, end_node=len(places) - 1)
+    dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    dijkstra_result = shortest_path
     """
 
     # Render results in a new template
