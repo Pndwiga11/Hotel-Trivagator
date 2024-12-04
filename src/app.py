@@ -63,17 +63,19 @@ def plan():
     for place in places:
         place["lat"], place["lon"] = get_lat_lon(place["address"])
     
-    # Create graph and run algorithms
+    # Create graph and run dfs
     graph = create_graph(places)
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
     
-    all_short_paths = [] # Store one unique shortest path per day of itinerary
-    for i in range(duration):
-        shortest_path = []
-        dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
-        all_short_paths += shortest_path
-        graph.remove_edge(shortest_path[0], shortest_path[-1]) # remove this shortest path edge to calculate following smallest
-    dijkstra_result = all_short_paths
+    # # Run dijkstra's
+    # all_short_paths = [] # Store one unique shortest path per day of itinerary
+    # for i in range(int(duration)):
+    #     shortest_path = []
+    #     dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    #     start_node = end_node # To create new path
+    #     all_short_paths += shortest_path
+    #     # graph.remove_edge(shortest_path[0], shortest_path[-1]) # remove this shortest path edge to calculate following smallest
+    # dijkstra_result = all_short_paths
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
 
