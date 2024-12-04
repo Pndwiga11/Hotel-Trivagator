@@ -72,6 +72,7 @@ def plan():
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
 
+
     visualize_graph_interactive(
         graph,
         filename="static/dfs_graph.html",
@@ -79,6 +80,7 @@ def plan():
         node_order=dfs_result,
         title="DFS Traversal Visualization"
     )
+
 
     shortest_path_edges = [(u, v) for u, v in zip(dijkstra_result[:-1], dijkstra_result[1:])]
 
@@ -92,10 +94,6 @@ def plan():
 
     print("DFS Result:", dfs_result)
     print("Dijkstra Result:", dijkstra_result)
-
-    #visualize graph to user
-    visualize_graph(graph)
-    visualize_graph_interactive(graph)
 
    #split result into days
     def split_days(result, duration):
@@ -143,8 +141,8 @@ def plan():
     """
 
     # Render results in a new template
-    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph, dfs_graph_path="/static/dfs_graph.html",
-        dijkstra_graph_path="/static/dijkstra_graph.html")
+    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph, dfs_graph_path="static/dfs_graph.html",
+        dijkstra_graph_path="static/dijkstra_graph.html")
 
 def check_budget(budget, duration): #tells user if budget is too low based on destination and duration
     min_budget = 50 * int(duration) #at least 50 dollars a day (can change later)
