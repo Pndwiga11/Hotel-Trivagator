@@ -66,12 +66,16 @@ def plan():
     # Create graph and run algorithms
     graph = create_graph(places)
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
-    shortest_path = []
-    dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
-    dijkstra_result = shortest_path
+    
+    all_short_paths = [] # Store one unique shortest path per day of itinerary
+    for i in range(duration):
+        shortest_path = []
+        dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+        all_short_paths += shortest_path
+        graph.remove_edge(shortest_path[0], shortest_path[-1]) # remove this shortest path edge to calculate following smallest
+    dijkstra_result = all_short_paths
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
-
 
     visualize_graph_interactive(
         graph,
@@ -81,7 +85,7 @@ def plan():
         title="DFS Traversal Visualization"
     )
 
-
+    # Say your trip is 5 days, then we find the 5 shortest paths so one unique path per day
     shortest_path_edges = [(u, v) for u, v in zip(dijkstra_result[:-1], dijkstra_result[1:])]
 
     visualize_graph_interactive(
@@ -94,6 +98,10 @@ def plan():
 
     print("DFS Result:", dfs_result)
     print("Dijkstra Result:", dijkstra_result)
+
+    #visualize graph to user
+    visualize_graph(graph)
+    visualize_graph_interactive(graph)
 
    #split result into days
     def split_days(result, duration):
@@ -141,8 +149,8 @@ def plan():
     """
 
     # Render results in a new template
-    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph, dfs_graph_path="static/dfs_graph.html",
-        dijkstra_graph_path="static/dijkstra_graph.html")
+    return render_template("results.html", dfs_itinerary=dfs_itinerary, dijkstra_itinerary=dijkstra_itinerary, G=graph, dfs_graph_path="/static/dfs_graph.html",
+        dijkstra_graph_path="/static/dijkstra_graph.html")
 
 def check_budget(budget, duration): #tells user if budget is too low based on destination and duration
     min_budget = 50 * int(duration) #at least 50 dollars a day (can change later)
