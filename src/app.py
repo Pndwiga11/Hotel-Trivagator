@@ -62,33 +62,48 @@ def plan():
         places += get_nearby_places(location, radius, interest)
     
     # Limit the output within budget (example: $50 per location per day)
-    max_places = int(budget) // (50 * int(duration))
+    max_places = int(budget) // (10 * int(duration))
     places = places[:max_places]
 
     # Add latitude/longitude to each place (mock data if not available)
     for place in places:
         place["lat"], place["lon"] = get_lat_lon(place["address"])
     
-    # Create graph and run dfs
+    # Create graph
     graph = create_graph(places)
+
+    # Run DFS
     dfs_result = dfs_path(graph, start_node=0, preference="rating")
+    dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
+    dfs_graph_path = os.path.join(static_dir, "dfs_graph.html") # Create html file for DFS graph visualization
+
+    # Run Dijkstra's
+    shortest_path = []
+    dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    print("The original path is: ", shortest_path)
+    dijkstra_result = shortest_path
+    dijkstra_graph_path = os.path.join(static_dir, "dijkstra_graph.html") # Create html file for Dijkstra's graph visualization
     
-    # Run dijkstra's
+    # Iterate Dijkstra's n number of days
+    # for i in range(int(duration)
+
+    '''
     all_short_paths = [] # Store one unique shortest path per day of itinerary
+    start_node = 0
+    end_node = len(places) - 1
+    # Create n number of different short paths for 
     for i in range(int(duration)):
         shortest_path = []
-        dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+        dijkstra_path(graph, shortest_path, start_node, end_node)
+        print("The " + str(i) + "th shortest path is: " + str(shortest_path))
         all_short_paths += shortest_path
-        start_node = shortest_path[-1] # Make new start node the end of the previous path
+        #start_node = shortest_path[-1] # Make new start node the end of the previous path
         # Remove the edges part of current day's path to avoid repeating
-        for j in range(len(shortest_path) - 1):
-            graph.remove_edge(shortest_path[j], shortest_path[j + 1])  
+        #for j in range(len(shortest_path) - 1):
+           # graph.remove_edge(shortest_path[j], shortest_path[j + 1])  
+        
     dijkstra_result = all_short_paths
-
-    dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
-
-    dfs_graph_path = os.path.join(static_dir, "dfs_graph.html")
-    dijkstra_graph_path = os.path.join(static_dir, "dijkstra_graph.html")
+    '''
 
     visualize_graph_interactive(
         graph,
@@ -143,6 +158,7 @@ def plan():
 
     dfs_itinerary = split_days(dfs_result, int(duration))
     dijkstra_itinerary = split_days(dijkstra_result, int(duration))
+    # dijkstra_itinerary will already be split into necessary number of days (2 locations per day)
     print("DFS is", dfs_itinerary)
     print("Dijkstra is", dijkstra_itinerary)
 
