@@ -87,8 +87,8 @@ if __name__ == "__main__":
     ])
 
     # Run Dijkstra's algorithm
-    start_node = 2
-    end_node = 1
+    start_node = 0
+    end_node = 6
     shortest_path = [] # Pass in a list since its mutable 
     dijkstra_path(G, shortest_path, start_node, end_node)
     # total_length = dijkstra_path(G, shortest_path, start_node, end_node) # Calculate path's total distance
@@ -97,3 +97,15 @@ if __name__ == "__main__":
 
     #print("The total length is: ", total_length)
     print("The shortest Path:", shortest_path)
+
+    # # Run dijkstra's
+    # duration = 5
+    # shortest_paths = [] # Store one unique shortest path per day of itinerary
+    # dijkstra_path(G, shortest_paths, 0, 6)
+    #     # all_short_paths += shortest_path
+    #     # graph.remove_edge(shortest_path[0], shortest_path[-1]) # remove this shortest path edge to calculate following smallest
+    # dijkstra_result = shortest_paths
+    # print("The smallest path is", dijkstra_result)
+    
+    # shortest_path_edges = [(u, v) for u, v in zip(dijkstra_result[:-1], dijkstra_result[1:])]
+    # print("The other shortest path: ", shortest_path_edges)
