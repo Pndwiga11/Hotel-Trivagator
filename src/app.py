@@ -4,12 +4,17 @@ from dfs_algorithm import dfs_path
 from dijkstra_algorithm import dijkstra_path
 from api_test import get_nearby_places, get_lat_lon
 import networkx as nx
+import os
 
 # Note: Fix the Pylance issues with this import
 # Note: Do some more research with Flask routing for new ideas
 # Note: Add something saying "Budget is too low" if budget is too low
 
 app = Flask(__name__)
+
+
+static_dir = os.path.join(os.getcwd(), "static")
+os.makedirs(static_dir, exist_ok=True)
 
 # Home route
 @app.route("/")
@@ -82,9 +87,12 @@ def plan():
 
     dfs_edges = [(u, v) for u, v in zip(dfs_result[:-1], dfs_result[1:])]
 
+    dfs_graph_path = os.path.join(static_dir, "dfs_graph.html")
+    dijkstra_graph_path = os.path.join(static_dir, "dijkstra_graph.html")
+
     visualize_graph_interactive(
         graph,
-        filename="static/dfs_graph.html",
+        filename=dfs_graph_path,
         edge_highlight=dfs_edges,
         node_order=dfs_result,
         title="DFS Traversal Visualization"
@@ -95,7 +103,7 @@ def plan():
 
     visualize_graph_interactive(
         graph,
-        filename="static/dijkstra_graph.html",
+        filename=dijkstra_graph_path,
         edge_highlight=shortest_path_edges,
         title="Dijkstra's Shortest Path Visualization"
     )
