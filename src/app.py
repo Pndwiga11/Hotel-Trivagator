@@ -70,8 +70,9 @@ def plan():
     # # Run dijkstra's
     # all_short_paths = [] # Store one unique shortest path per day of itinerary
     # for i in range(int(duration)):
-    #     shortest_path = []
-    #     dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    shortest_path = []
+    dijkstra_path(graph, shortest_path, start_node=0, end_node=len(places) - 1)
+    dijkstra_result = shortest_path
     #     start_node = end_node # To create new path
     #     all_short_paths += shortest_path
     #     # graph.remove_edge(shortest_path[0], shortest_path[-1]) # remove this shortest path edge to calculate following smallest
