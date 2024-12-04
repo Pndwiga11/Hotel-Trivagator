@@ -2,7 +2,7 @@
 
 import requests
 
-API_KEY = "AIzaSyAx4-LAfScomtXACQYr6a62FTKtYgBWs60"
+API_KEY = ""
 # Make sure to keep this API keep secret/secure ^^
 
 def get_distances(origin, destinations):
