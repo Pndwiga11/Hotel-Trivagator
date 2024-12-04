@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import itertools
 
+import os
+
 # Note: Fix the Pylance issues with these imports
 
 def create_graph(places):
@@ -54,6 +56,9 @@ def visualize_graph(G, filename="static/graph.png"):
         G (nx.Graph): The graph to visualize.
     """
 
+    base_dir = "static"
+    filename = os.path.join(base_dir, "graph.png")
+
     # Create dictionary (labels) where key=Node index, value=Node name
     labels = nx.get_node_attributes(G, 'name')
 
@@ -78,6 +83,9 @@ def visualize_graph_interactive(G, filename="static/interactive_graph.html", edg
         node_order (list): The order of nodes for labeling traversal steps.
         title (str): Title of the interactive graph.
     """
+
+    base_dir = "static"
+    filename = os.path.join(base_dir, "interactive_graph.html")
     pos = nx.spring_layout(G)  # spring layout to position nodes in graph
 
     highlighted_edges = []
