@@ -13,7 +13,7 @@ import os
 app = Flask(__name__)
 
 
-static_dir = os.path.join(os.getcwd(), "static")
+static_dir = os.path.join(app.root_path, "static")
 os.makedirs(static_dir, exist_ok=True)
 
 # Home route
