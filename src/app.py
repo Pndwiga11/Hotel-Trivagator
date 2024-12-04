@@ -27,7 +27,7 @@ def plan():
 
     is_valid_budget, min_budget = check_budget(budget, duration)
     if not is_valid_budget:
-        return render_template("index.html", error=f"Error: Budget is too low. Minimum budget is ${min_budget/5} per day.")
+        return render_template("index.html", error=f"Error: Budget is too low. Minimum budget is ${min_budget} for ${duration} days.")
     
     # Geocode the destination
     lat, lon = get_lat_lon(destination)
