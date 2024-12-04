@@ -16,6 +16,7 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+
 # Process user input
 @app.route("/plan", methods=["POST"])
 def plan():
