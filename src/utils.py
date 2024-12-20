@@ -2,7 +2,12 @@
 
 import requests
 
-API_KEY = ""
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
 # Make sure to keep this API keep secret/secure ^^
 
 def get_distances(origin, destinations):

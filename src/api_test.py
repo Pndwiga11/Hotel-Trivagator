@@ -2,12 +2,17 @@
 
 from graph_builder import create_graph, visualize_graph
 
+from dotenv import load_dotenv
+import os
+
 import requests
 import json
 
 # Note: Fix the Pylance issues with this import
 
-API_KEY = ""
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
 # Make sure to keep this API keep secret/secure ^^
 
 def get_nearby_places(location, radius, place_type):
